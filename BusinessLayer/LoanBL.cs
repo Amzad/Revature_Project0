@@ -31,10 +31,10 @@ namespace BusinessLayer
             throw new UnavailableFunctionException();
         }
 
-        public String payInstallment(int accountID, double amount)
+        public String PayInstallment(int accountID, double amount)
         {
             LoanAccount la = AccountDAL.accountList.Find(acc => acc.AccountID == accountID) as LoanAccount;
-            return new LoanDAL().payInstallment(la, amount);
+            return new LoanDAL().PayInstallment(la, amount);
 
         }
 

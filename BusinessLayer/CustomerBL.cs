@@ -92,7 +92,7 @@ namespace BusinessLayer
             List<Account> custAccList = GetAllCustomerAccounts(custID);
 
             Console.Clear();
-            Console.WriteLine("The following are your available accounts");
+            //Console.WriteLine("The following are your available accounts");
 
             foreach (Account acc in custAccList)
             {

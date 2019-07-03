@@ -9,7 +9,7 @@ namespace FrontEnd
     {
         public static void Main(String[] args)
         {
-            generateFakeUser();
+            //generateFakeUser();
             Console.WriteLine("Welcome to the Console Bank!");
 
             while (true)
@@ -176,7 +176,7 @@ namespace FrontEnd
                         int custID = int.Parse(id);
 
                         Dictionary<String, String> accountList = new CustomerBL().GetCustomerAccounts(custID);
-
+                        Console.WriteLine("The following are your available accounts");
                         foreach (KeyValuePair<String, String> s in accountList)
                         {
                             Console.WriteLine(s.Value);
@@ -222,10 +222,10 @@ namespace FrontEnd
                         List<Account> custAccList = new CustomerBL().GetAllCustomerAccounts(custID);
 
                         Console.Clear();
-                        Console.WriteLine("The following are your available accounts");
 
                         // Print all accounts but loan accounts
                         Dictionary<String, String> accountList = new CustomerBL().GetCustomerAccounts(custID);
+                        Console.WriteLine("The following are your available accounts");
                         foreach (KeyValuePair<String, String> s in accountList)
                         {
                             if (s.Value != "LoanAccount")
@@ -292,13 +292,13 @@ namespace FrontEnd
                         List<Account> custAccList = new CustomerBL().GetAllCustomerAccounts(custID);
 
                         Console.Clear();
-                        Console.WriteLine("The following are your available accounts");
 
                         // Print all accounts but loan accounts
                         Dictionary<String, String> accountList = new CustomerBL().GetCustomerAccounts(custID);
+                        Console.WriteLine("The following are your available accounts");
                         foreach (KeyValuePair<String, String> s in accountList)
                         {
-                            if ((s.Value != "LoanAccount") || (s.Value != "TermDepositAccount"))
+                            if ( (s.Value == "PersonalCheckingAccount") || (s.Value == "BusinessCheckingAccount") )
                             {
                                 Console.WriteLine(s.Key);
                             }
@@ -320,6 +320,10 @@ namespace FrontEnd
                         Console.WriteLine(returnedString);
                         resetPrompt();
 
+                    }
+                    catch (UnavailableFunctionException) 
+                    {
+                        Console.WriteLine("This function isn't available for this account");
                     }
                     catch (FormatException)
                     {
@@ -351,10 +355,9 @@ namespace FrontEnd
                         int custID = int.Parse(Console.ReadLine());
                         List<Account> custAccList = new CustomerBL().GetAllCustomerAccounts(custID);
 
-                        Console.WriteLine("The following are your available accounts");
-
                         // Print all accounts but loan accounts
                         Dictionary<String, String> accountList = new CustomerBL().GetCustomerAccounts(custID);
+                        Console.WriteLine("The following are your available accounts");
                         foreach (KeyValuePair<String, String> s in accountList)
 
                             if (s.Value != "LoanAccount") Console.WriteLine(s.Key);
@@ -419,31 +422,17 @@ namespace FrontEnd
                         Console.WriteLine("Enter your customer ID");
                         String input = Console.ReadLine();
                         int custID = int.Parse(input);
-                        List<Account> custAccList = new CustomerBL().GetAllCustomerAccounts(custID);
-                        Console.WriteLine("The following are your available accounts");
-                        foreach (Account acc in custAccList)
+                        Dictionary<String, String> accountList = new CustomerBL().GetCustomerAccounts(custID);
+                        if (accountList.Count > 0)
                         {
-                            if (acc is PersonalCheckingAccount)
-                            {
-                                PersonalCheckingAccount acc2 = acc as PersonalCheckingAccount;
-                                Console.WriteLine($"Type: Personal Checking  Credit: {acc2.Credit}  Debit: {acc2.Debit}  ID: {acc.AccountID}");
-                            }
-                            if (acc is BusinessCheckingAccount)
-                            {
-                                BusinessCheckingAccount acc2 = acc as BusinessCheckingAccount;
-                                Console.WriteLine($"Type: Business Checking  Credit: {acc2.Credit}  Debit: {acc2.Debit}  ID: {acc.AccountID}");
-                            }
-                            if (acc is LoanAccount)
-                            {
-                                LoanAccount acc2 = acc as LoanAccount;
-                                Console.WriteLine($"Type: Loan  Debit: {acc2.Debit}  Interest Rate: {acc2.interestRate} ID: {acc.AccountID}");
-                            }
-                            if (acc is TermDepositAccount)
-                            {
-                                TermDepositAccount acc2 = acc as TermDepositAccount;
-                                Console.WriteLine($"Type: Term Deposit  Debit: {acc2.depositTerm}  Interest Rate: {acc2.interestRate} ID: {acc.AccountID}");
-                            }
+                            Console.WriteLine("The following are your available accounts");
+                            foreach (KeyValuePair<String, String> s in accountList)
+                                Console.WriteLine(s.Key);
 
+                        }
+                        else
+                        {
+                            Console.WriteLine("No accounts exist for your customer id");
                         }
                         resetPrompt();
                     }
@@ -456,34 +445,39 @@ namespace FrontEnd
 
                 if (x == "P")
                 {
-
                     try
                     {
-                        Console.ReadLine();
+                        Console.Clear();
                         Console.WriteLine("Enter your customer ID");
                         String input = Console.ReadLine();
                         int custID = int.Parse(input);
                         List<Account> custAccList = new CustomerBL().GetAllCustomerAccounts(custID);
                         Console.Clear();
-                        Console.WriteLine("The following are your available loan accounts");
                         List<Account> loanAccounts = custAccList.FindAll(acc => acc is LoanAccount);
-
-                        foreach (LoanAccount loanAcc in loanAccounts)
+                        if (loanAccounts.Count > 0)
                         {
-                            Console.WriteLine($"Type: Loan  Debit: {loanAcc.Debit}  Interest Rate: {loanAcc.interestRate} ID: {loanAcc.AccountID}");
+
+                            Console.WriteLine("The following are your available loan accounts");
+                            foreach (LoanAccount loanAcc in loanAccounts)
+                            {
+                                Console.WriteLine($"Type: Loan  Debit: {loanAcc.Debit}  Interest Rate: {loanAcc.interestRate} ID: {loanAcc.AccountID}");
+                            }
+
+                            Console.WriteLine("Please select an account id to pay");
+                            String selectAcc = Console.ReadLine();
+                            int selectedAcc = int.Parse(selectAcc);
+
+                            Console.WriteLine("How much do you want to pay?");
+                            String selectAmount = Console.ReadLine();
+                            int selectedAmount = int.Parse(selectAmount);
+
+                            String returnedString = new LoanBL().PayInstallment(selectedAcc, selectedAmount);
+                            Console.WriteLine(returnedString);
                         }
-
-                        Console.WriteLine("Please select an account id to pay");
-                        String selectAcc = Console.ReadLine();
-                        int selectedAcc = int.Parse(selectAcc);
-                        Console.ReadLine();
-
-                        Console.WriteLine("How much do you want to pay?");
-                        String selectAmount = Console.ReadLine();
-                        int selectedAmount = int.Parse(selectAcc);
-
-                        String returnedString = new LoanBL().payInstallment(selectedAcc, selectedAmount);
-                        Console.WriteLine(returnedString);
+                        else
+                        {
+                            Console.WriteLine("No loan accounts are available for your account");
+                        }
                     }
                     catch (UnavailableFunctionException)
                     {
@@ -515,6 +509,7 @@ namespace FrontEnd
 
                         // Print all accounts
                         Dictionary<String, String> accountList = new CustomerBL().GetCustomerAccounts(custID);
+                        Console.WriteLine("The following are your available accounts");
                         foreach (KeyValuePair<String, String> s in accountList)
                             Console.WriteLine(s.Key);
 

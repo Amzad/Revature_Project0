@@ -24,7 +24,7 @@ namespace DataAccessLayer
             return newAccount;
         }
 
-        public String payInstallment(LoanAccount account, double amount)
+        public String PayInstallment(LoanAccount account, double amount)
         {
             account.Debit = amount;
             account.transactionLog.Add("Payment of " + amount);
