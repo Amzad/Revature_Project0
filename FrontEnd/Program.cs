@@ -49,7 +49,7 @@ namespace FrontEnd
                         Console.Clear();
                         Console.WriteLine($"Your customer account has been created {newCust.FirstName}. Your customer ID number is {newCust.ID}");
                         //resetPrompt();
-                        
+
                     }
                     catch (NewCustomerException)
                     {
@@ -456,7 +456,7 @@ namespace FrontEnd
 
                 if (x == "P")
                 {
-                    
+
                     try
                     {
                         Console.ReadLine();
@@ -501,6 +501,45 @@ namespace FrontEnd
                     {
                         resetPrompt();
                     }
+                }
+                if (x == "L")
+                {
+                    try
+                    {
+                        Console.Clear();
+
+                        Console.WriteLine("Enter your customer ID");
+                        String input = Console.ReadLine();
+                        int custID = int.Parse(input);
+                        Console.WriteLine("The following are your available accounts");
+
+                        // Print all accounts
+                        Dictionary<String, String> accountList = new CustomerBL().GetCustomerAccounts(custID);
+                        foreach (KeyValuePair<String, String> s in accountList)
+                            Console.WriteLine(s.Key);
+
+
+                        Console.WriteLine("Please select an account to view the transaction logs");
+                        int transAcc = int.Parse(Console.ReadLine());
+
+                        List<String> transLog = new AccountBL().getTransactionLog(transAcc);
+                        if (transLog.Count > 0)
+                        {
+                            foreach (String s in transLog) Console.WriteLine(s);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No transaction records exists for this account");
+                        }
+                        resetPrompt();
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Unhandled Error");
+
+                    }
+
+
                 }
             }
         }

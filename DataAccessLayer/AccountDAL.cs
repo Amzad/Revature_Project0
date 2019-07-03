@@ -24,5 +24,10 @@ namespace DataAccessLayer
             accountList.Remove(acc);
             return acc;
         }
+
+        public List<string> getTransactionLog(Account account)
+        {
+            return account.transactionLog;
+        }
     }
 }

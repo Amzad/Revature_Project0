@@ -24,6 +24,11 @@ namespace BusinessLayer
             return account.Transfer(fromAccountID, toAccountID, amount);
         }
 
+        public List<String> getTransactionLog(int accountID)
+        {
+            return new AccountDAL().getTransactionLog(GetAccount(accountID));
+        }
+
         public Account GetAccount(int custID)
         {
             try
