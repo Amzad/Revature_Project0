@@ -23,9 +23,9 @@ namespace FrontEnd
                 Console.WriteLine("T -  Transfer between accounts");
                 Console.WriteLine("P -  Pay Loan Installment");
                 Console.WriteLine("S -  Display my accounts");
-                Console.WriteLine("L -  Display account transactions"); // WIN
+                Console.WriteLine("L -  Display account transactions"); 
 
-                String x = Console.ReadLine().ToUpper();
+                String x = Console.ReadLine().ToUpper(); // Allows for both upper and lowercase inputs
 
                 // Register a new customer
                 if (x == "R")
@@ -43,12 +43,12 @@ namespace FrontEnd
                         Console.WriteLine("Please enter your phone number");
                         String phoneNumber = Console.ReadLine();
                         CustomerBL custBL = new CustomerBL();
-                        Customer newCust = custBL.Create(firstName, lastName, address, phoneNumber);
+                        Customer newCust = custBL.Create(firstName, lastName, address, phoneNumber); //Submit new customer registration
 
 
                         Console.Clear();
-                        Console.WriteLine($"Your customer account has been created {newCust.FirstName}. Your customer ID number is {newCust.ID}");
-                        //resetPrompt();
+                        Console.WriteLine($"Your customer account has been created {newCust.FirstName} {newCust.LastName}. Your customer ID number is {newCust.ID}");
+                        Console.WriteLine($"Your customer ID number is {newCust.ID}");
 
                     }
                     catch (NewCustomerException)
@@ -61,7 +61,7 @@ namespace FrontEnd
                     }
                     finally
                     {
-                        resetPrompt();
+                        ResetPrompt();
                     }
                 }
 
@@ -70,15 +70,13 @@ namespace FrontEnd
                 {
                     try
                     {
-                        String id = "";
                         Console.Clear();
                         Console.WriteLine("Please enter your customer ID");
-                        id = Console.ReadLine();
-                        int parsedID = int.Parse(id);
+                        int parsedID = int.Parse(Console.ReadLine());
                         CustomerBL custBL = new CustomerBL();
 
                         Console.Clear();
-                        Customer cust = custBL.Get(int.Parse(id));
+                        Customer cust = custBL.Get(parsedID);
                         Console.WriteLine($"Hello {cust.FirstName} {cust.LastName}!");
                         Console.WriteLine("Please select the type of account to open below.");
                         Console.WriteLine("C -  Checking Account");
@@ -93,7 +91,6 @@ namespace FrontEnd
                         {
                             Account newAccount = new PersonalCheckingBL().Create(cust);
                             Console.WriteLine($"Your checking account has been created. Your checking account number is {newAccount.AccountID}");
-                            //resetPrompt();
                         }
 
                         // Create Business Account
@@ -101,7 +98,6 @@ namespace FrontEnd
                         {
                             Account newAccount = new BusinessCheckingBL().Create(cust);
                             Console.WriteLine($"Your business account has been created. Your business account number is {newAccount.AccountID}");
-                            //resetPrompt();
                         }
 
                         // Create Loan
@@ -112,7 +108,6 @@ namespace FrontEnd
                             int amount = int.Parse(Console.ReadLine());
                             LoanAccount newAccount = new LoanBL().Create(cust, amount) as LoanAccount;
                             Console.WriteLine($"Your loan account has been created. Your loan account number is {newAccount.AccountID} and your balance is {newAccount.Debit}.");
-                            //resetPrompt();
                         }
 
                         // Create term deposit
@@ -131,10 +126,6 @@ namespace FrontEnd
                             Console.Clear();
                             Console.WriteLine($"Your loan account has been created. Your loan account number is {newAccount.AccountID} and your deposit is {newAccount.Credit}");
                             Console.WriteLine($"Your deposit will compound at 3.5% APR for {newAccount.depositTerm} years");
-                            //resetPrompt();
-
-
-
                         }
 
                         else
@@ -158,7 +149,7 @@ namespace FrontEnd
                     }
                     finally
                     {
-                        resetPrompt();
+                        ResetPrompt();
                     }
 
 
@@ -187,9 +178,6 @@ namespace FrontEnd
 
                         Account account = new CustomerBL().DeleteAccount(custID, accDel);
                         Console.WriteLine($" Your account with the account number {account.AccountID} has been closed");
-                        //resetPrompt();
-
-
                     }
                     catch (FormatException)
                     {
@@ -205,7 +193,7 @@ namespace FrontEnd
                     }
                     finally
                     {
-                        resetPrompt();
+                        ResetPrompt();
                     }
 
                 }
@@ -248,26 +236,21 @@ namespace FrontEnd
 
                         Console.Clear();
                         Console.WriteLine(returnedString);
-                        //resetPrompt();
-
-
-
-
                     }
                     catch (UnavailableFunctionException)
                     {
                         Console.WriteLine("The term deposit isn't accessible right now");
-                        //resetPrompt();
+                        //ResetPrompt();
                     }
                     catch (TermLengthException)
                     {
                         Console.WriteLine("The term deposit isn't accessible right now");
-                        //resetPrompt();
+                        //ResetPrompt();
                     }
                     catch (OverdraftException)
                     {
                         Console.WriteLine("You have insufficient funds.");
-                        //resetPrompt();
+                        //ResetPrompt();
                     }
                     catch (Exception e)
                     {
@@ -275,7 +258,7 @@ namespace FrontEnd
                     }
                     finally
                     {
-                        resetPrompt();
+                        ResetPrompt();
                     }
 
 
@@ -318,7 +301,7 @@ namespace FrontEnd
 
                         Console.Clear();
                         Console.WriteLine(returnedString);
-                        resetPrompt();
+                        ResetPrompt();
 
                     }
                     catch (UnavailableFunctionException) 
@@ -386,7 +369,7 @@ namespace FrontEnd
 
                         Console.Clear();
                         Console.WriteLine(returnedString);
-                        resetPrompt();
+                        ResetPrompt();
 
 
                     }
@@ -434,7 +417,7 @@ namespace FrontEnd
                         {
                             Console.WriteLine("No accounts exist for your customer id");
                         }
-                        resetPrompt();
+                        ResetPrompt();
                     }
                     catch
                     {
@@ -493,7 +476,7 @@ namespace FrontEnd
                     }
                     finally
                     {
-                        resetPrompt();
+                        ResetPrompt();
                     }
                 }
                 if (x == "L")
@@ -526,7 +509,7 @@ namespace FrontEnd
                         {
                             Console.WriteLine("No transaction records exists for this account");
                         }
-                        resetPrompt();
+                        ResetPrompt();
                     }
                     catch
                     {
@@ -539,7 +522,7 @@ namespace FrontEnd
             }
         }
 
-        static void resetPrompt()
+        static void ResetPrompt()
         {
             Console.WriteLine("Press the enter key to return to the main menu.");
             Console.ReadLine();

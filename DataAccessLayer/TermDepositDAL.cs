@@ -13,7 +13,6 @@ namespace DataAccessLayer
                 Credit = amount,
                 interestRate = 5.5,
                 depositTerm = length,
-                remainingTerm = length * 12
 
             };
             AccountDAL.accountList.Add(newAccount);

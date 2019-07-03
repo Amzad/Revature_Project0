@@ -40,7 +40,7 @@ namespace BusinessLayer
             {
                 TermDepositAccount ta = AccountDAL.accountList.Find(account => account.AccountID == accountID) as TermDepositAccount;
 
-                if (ta.remainingTerm == 0)
+                if (ta.depositTerm == 0)
                 {
                     ta.Credit -= amount;
                     ta.transactionLog.Add("Withdrawal of " + amount);

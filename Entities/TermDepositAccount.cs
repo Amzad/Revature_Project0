@@ -5,6 +5,5 @@ namespace Entities
     {
         public double Credit { get; set; }
         public int depositTerm { get; set; }
-        public int remainingTerm { get; set; }
     }
 }

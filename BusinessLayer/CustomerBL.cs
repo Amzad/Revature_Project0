@@ -64,7 +64,7 @@ namespace BusinessLayer
                 if (acc is PersonalCheckingAccount)
                 {
                     PersonalCheckingAccount acc2 = acc as PersonalCheckingAccount;
-                    accountList.Add($"Type: Personal Checking  Credit: {acc2.Credit}  Debit: {acc2.Debit}  Interest Rate: {acc2.interestRate}  ID: {acc.AccountID}");
+                    accountList.Add($"Type: Personal Checking  Credit: {acc2.Credit}  Interest Rate: {acc2.interestRate}  ID: {acc.AccountID}");
                 }
                 if (acc is BusinessCheckingAccount)
                 {
@@ -79,7 +79,7 @@ namespace BusinessLayer
                 if (acc is TermDepositAccount)
                 {
                     TermDepositAccount acc2 = acc as TermDepositAccount;
-                    accountList.Add($"Type: Term Deposit  Debit: {acc2.depositTerm}  Interest Rate: {acc2.interestRate} ID: {acc.AccountID}");
+                    accountList.Add($"Type: Term Deposit  Credit: {acc2.Credit} Term Length: {acc2.depositTerm} Interest Rate: {acc2.interestRate} ID: {acc.AccountID}");
                 }
 
             }
@@ -114,7 +114,7 @@ namespace BusinessLayer
                 else if (acc is TermDepositAccount)
                 {
                     TermDepositAccount acc2 = acc as TermDepositAccount;
-                    accountLists.Add($"Type: Term Deposit  Debit: {acc2.depositTerm}  Interest Rate: {acc2.interestRate} ID: {acc.AccountID}", "TermDepositAccount");
+                    accountLists.Add($"Type: Term Deposit  Credit: {acc2.Credit}  Term Length: {acc2.depositTerm} Interest Rate: {acc2.interestRate} ID: {acc.AccountID}", "TermDepositAccount");
                 }
             }
 
